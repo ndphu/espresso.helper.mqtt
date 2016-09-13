@@ -17,10 +17,10 @@ func (mqttApp *mqttApplication) Init(appConfig *appconfig.AppConfig) {
 }
 
 func CreateClientOpts(appConfig *appconfig.AppConfig) *mqtt.ClientOptions {
-	brokerUrl := fmt.Sprintf(appConfig.Server.Protocol + "://" + appConfig.Server.Host + ":" + strconv.Itoa(appConfig.Server.Port))
+	brokerUrl := fmt.Sprintf(appConfig.Server.MQTT.Protocol + "://" + appConfig.Server.MQTT.Host + ":" + strconv.Itoa(appConfig.Server.MQTT.Port))
 	opts := mqtt.NewClientOptions().AddBroker(brokerUrl)
-	opts.SetUsername(appConfig.Server.User)
-	opts.SetPassword(appConfig.Server.Password)
+	opts.SetUsername(appConfig.Server.MQTT.User)
+	opts.SetPassword(appConfig.Server.MQTT.Password)
 	opts.SetClientID(appConfig.Device.Id)
 	return opts
 }
