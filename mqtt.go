@@ -4,7 +4,6 @@ import (
 	"fmt"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	appconfig "github.com/ndphu/espresso.appconfig"
-	"log"
 	"strconv"
 )
 
@@ -18,9 +17,7 @@ func (mqttApp *mqttApplication) Init(appConfig *appconfig.AppConfig) {
 }
 
 func CreateClientOpts(appConfig *appconfig.AppConfig) *mqtt.ClientOptions {
-	// Build broker URL
 	brokerUrl := fmt.Sprintf(appConfig.Server.Protocol + "://" + appConfig.Server.Host + ":" + strconv.Itoa(appConfig.Server.Port))
-	log.Printf("Broker URL: %s", brokerUrl)
 	opts := mqtt.NewClientOptions().AddBroker(brokerUrl)
 	opts.SetUsername(appConfig.Server.User)
 	opts.SetPassword(appConfig.Server.Password)
