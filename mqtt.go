@@ -8,12 +8,18 @@ import (
 	"time"
 )
 
-func NewClientOpts(appConfig *appconfig.AppConfig) *mqtt.ClientOptions {
-	brokerUrl := fmt.Sprintf(appConfig.Server.MQTT.Protocol + "://" + appConfig.Server.MQTT.Host + ":" + strconv.Itoa(appConfig.Server.MQTT.Port))
+func NewClientOpts(conf *appconfig.AppConfig) *mqtt.ClientOptions {
+	var brokerUrl string
+	switch {
+	case conf.Schema == "1.0":
+		brokerUrl = fmt.Sprintf(conf.Server.MQTT.Protocol + "://" + conf.Server.MQTT.Host + ":" + strconv.Itoa(conf.Server.MQTT.Port))
+	case conf.Schema == "2.0":
+		brokerUrl = conf.Server.MQTT.BrokerUrl
+	}
 	opts := mqtt.NewClientOptions().AddBroker(brokerUrl)
-	opts.SetUsername(appConfig.Server.MQTT.User)
-	opts.SetPassword(appConfig.Server.MQTT.Password)
-	opts.SetClientID(appConfig.Device.Id)
+	opts.SetUsername(conf.Server.MQTT.User)
+	opts.SetPassword(conf.Server.MQTT.Password)
+	opts.SetClientID(conf.Device.Id)
 	return opts
 }
 
